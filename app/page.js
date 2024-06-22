@@ -1,94 +1,86 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { useState } from "react";
+import NLPCloudClient from "nlpcloud";
+import axios from "axios";
+import "./page.css";
 
 export default function Home() {
+  const [query, setQuery] = useState("");
+  const [response, setResponse] = useState("");
+  const [user, setUser] = useState([
+    "hola, que tal?",
+    "bien bien, que tranzas?",
+  ]);
+  const [jojo, setJojo] = useState(["bien, y tu?", "nada ahi, agitandole"]);
+  // const client = new NLPCloudClient({
+  //   model: "dolphin-yi-34b",
+  //   token: process.env.NEXT_PUBLIC_NLP_AI_KEY,
+  //   gpu: true,
+  // });
+  const context =
+    "This is a discussion between a human and an AI. The human is happy but curious and the AI is empathetic and helpful. The AI is called Jojo.";
+  const history = [];
+  const content = document.getElementById("content");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setUser([...user, query]);
+    setJojo([...jojo, query]);
+    content.scrollTop = content.scrollHeight;
+    // client
+    //   .chatbot({
+    //     input: query,
+    //     context: context,
+    //     history: history,
+    //   })
+    //   .then(function (response) {
+    //     history.push({ input: query, response: response.data.response });
+    //     setResponse(response.data.response);
+    //   })
+    //   .catch(function (err) {
+    //     console.error(err.response.status);
+    //     console.error(err.response.data.detail);
+    //   });
+  }
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const result = await axios.post("http://localhost:5000/api/nlpcloud", {
+  //       input: query,
+  //       context,
+  //       history,
+  //     });
+  //     setResponse(result.data);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main>
+      <h1>Future Bot</h1>
+      <p>Welcome to Future Bot, the bot that tells your about the future.</p>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="input">Ask to bot:</label>
+        <input
+          name="input"
+          id="input"
+          placeholder="Write a question"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
+        ></input>
+      </form>
+      <div className="container" id="content">
+        <div className="party">
+          {user && user.map((u, index) => <p key={index}>User: {u}</p>)}
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <div className="party">
+          {jojo && jojo.map((jojo, index) => <p key={index}>Jojo: {jojo}</p>)}
+        </div>
       </div>
     </main>
   );
