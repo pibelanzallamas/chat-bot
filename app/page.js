@@ -2,52 +2,55 @@
 
 import { useRef, useState, useEffect } from "react";
 import NLPCloudClient from "nlpcloud";
-import axios from "axios";
 import "./page.css";
 
 export default function Home() {
   const [query, setQuery] = useState("");
-  const [response, setResponse] = useState("");
   const [user, setUser] = useState([
     "hola, que tal?",
     "bien bien, que tranzas?",
   ]);
   const [jojo, setJojo] = useState(["bien, y tu?", "nada ahi, agitandole"]);
-  // const client = new NLPCloudClient({
-  //   model: "dolphin-yi-34b",
-  //   token: process.env.NEXT_PUBLIC_NLP_AI_KEY,
-  //   gpu: true,
-  // });
+
+  const client = new NLPCloudClient({
+    model: "dolphin-yi-34b",
+    token: "",
+    gpu: true,
+  });
+
   const context =
     "This is a discussion between a human and an AI. The human is happy but curious and the AI is empathetic and helpful. The AI is called Jojo.";
   const history = [];
-  const chatRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [user]);
+  }, [user, jojo]);
 
   function handleSubmit(e) {
     e.preventDefault();
     setUser([...user, query]);
-    setJojo([...jojo, query]);
 
-    // client
-    //   .chatbot({
-    //     input: query,
-    //     context: context,
-    //     history: history,
-    //   })
-    //   .then(function (response) {
-    //     history.push({ input: query, response: response.data.response });
-    //     setResponse(response.data.response);
-    //   })
-    //   .catch(function (err) {
-    //     console.error(err.response.status);
-    //     console.error(err.response.data.detail);
-    //   });
+    client
+      .chatbot({
+        input: query,
+        context: context,
+        history: history,
+      })
+      .then(function (response) {
+        history.push({
+          input: query,
+          response: response.data.response,
+        });
+        setJojo([...jojo, response.data.response]);
+      })
+      .catch(function (err) {
+        console.error(err.response.status);
+        console.error(err.response.data.detail);
+      });
+    setQuery("");
   }
 
   // const handleSubmit = async (e) => {
@@ -80,12 +83,12 @@ export default function Home() {
           }}
         ></input>
       </form>
-      <div className="container" ref={chatRef}>
+      <div className="container" ref={containerRef}>
         <div className="party">
           {user && user.map((u, index) => <p key={index}>User: {u}</p>)}
         </div>
         <div className="party">
-          {jojo && jojo.map((jojo, index) => <p key={index}>Jojo: {jojo}</p>)}
+          {jojo && jojo.map((j, index) => <p key={index}>Jojo: {j}</p>)}
         </div>
       </div>
     </main>
