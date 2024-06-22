@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import NLPCloudClient from "nlpcloud";
 import axios from "axios";
 import "./page.css";
@@ -21,13 +21,19 @@ export default function Home() {
   const context =
     "This is a discussion between a human and an AI. The human is happy but curious and the AI is empathetic and helpful. The AI is called Jojo.";
   const history = [];
-  const content = document.getElementById("content");
+  const chatRef = useRef(null);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [user]);
 
   function handleSubmit(e) {
     e.preventDefault();
     setUser([...user, query]);
     setJojo([...jojo, query]);
-    content.scrollTop = content.scrollHeight;
+
     // client
     //   .chatbot({
     //     input: query,
@@ -74,7 +80,7 @@ export default function Home() {
           }}
         ></input>
       </form>
-      <div className="container" id="content">
+      <div className="container" ref={chatRef}>
         <div className="party">
           {user && user.map((u, index) => <p key={index}>User: {u}</p>)}
         </div>
