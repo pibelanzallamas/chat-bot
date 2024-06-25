@@ -2,27 +2,40 @@
 
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
-import "./page.css";
+import {
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Spinner,
+  Text,
+  Divider,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Center,
+} from "@chakra-ui/react";
+// import "./page.css";
 
 export default function Home() {
   const containerRef = useRef(null);
   const [query, setQuery] = useState("");
-  const [user, setUser] = useState([
-    "hola, que tal?",
-    "bien bien, que tranzas?",
-  ]);
-  const [jojo, setJojo] = useState(["bien, y tu?", "nada ahi, agitandole"]);
-  const context =
-    "This is a discussion between a human and an AI. The human is happy but curious and the AI is empathetic and helpful. The AI is called Jojo.";
-  const [history, setHistory] = useState([
-    { input: "hola, que tal?", response: "bien, y tu?" },
-    { input: "bien bien, que tranzas?", response: "nada ahi, agitandole" },
-  ]);
+  const [user, setUser] = useState([]);
+  const [jojo, setJojo] = useState([]);
+  const context = "AI expert on music, cool talking. The AI is called Jojo.";
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [low, setLow] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
     setUser([...user, query]);
-
+    setLoading(true);
     axios
       .post("http://localhost:5000/api/nlpcloud", {
         context,
@@ -31,8 +44,9 @@ export default function Home() {
       })
       .then((resp) => {
         const response = resp.data;
-
         setHistory(response.history);
+        setLow(!response.history);
+        setLoading(false);
         setJojo((elemento) => [...elemento, response.response]);
       })
       .catch((err) => {
@@ -42,7 +56,6 @@ export default function Home() {
     setQuery("");
   }
 
-  //para seguir la conver con el scroll
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -51,8 +64,91 @@ export default function Home() {
 
   return (
     <main>
-      <h1>Future Bot</h1>
+      <Flex
+        height="100vh"
+        alignItems="center"
+        justifyContent="center"
+        backgroundColor={"blue.300"}
+      >
+        <Flex
+          direction="column"
+          background="gray.100"
+          p={12}
+          rounded={6}
+          width={"60vw"}
+          maxWidth={"60vw"}
+        >
+          <Heading mb={3}>Future Bot</Heading>
+          <Text fontSize="xl" mb="3">
+            Welcome to Future Bot, the AI expert on music.
+          </Text>
+
+          <Flex
+            maxHeight="34vh"
+            direction={"column"}
+            overflow={"auto"}
+            ref={containerRef}
+            mb={1}
+          >
+            {user.map((u, i) => (
+              <>
+                <Text fontSize="xl">
+                  <Text as="b">User:</Text> {u}
+                </Text>
+                <Text fontSize="xl">
+                  <Text as="b">Jojo:</Text> {jojo[i]}
+                </Text>
+              </>
+            ))}
+          </Flex>
+
+          <Center>
+            {loading && (
+              <Spinner
+                thickness="4px"
+                speed="1s"
+                emptyColor="gray.200"
+                color="green.300"
+                size="xl"
+              />
+            )}
+          </Center>
+          {low ? (
+            <Alert status="warning" mt={2}>
+              <AlertIcon />
+              <AlertTitle>Take it easy</AlertTitle>
+              <AlertDescription>
+                Looks like you used all your requests. Wait for an hour.
+              </AlertDescription>
+            </Alert>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <FormControl>
+                <Input
+                  placeholder="Write a question"
+                  variant="filled"
+                  mt={3}
+                  mb={3}
+                  type="text"
+                  textAlign={"center"}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  border="black 1px solid"
+                  required
+                ></Input>
+                <Button width="100%" colorScheme="teal" type="submit">
+                  Ask
+                </Button>
+              </FormControl>
+            </form>
+          )}
+        </Flex>
+      </Flex>
+      {/* 
       <p>Welcome to Future Bot, the bot that tells your about the future.</p>
+      <Link href="/about" color="blue.400" _hover={{ color: "blue.500" }}>
+        About
+      </Link>
       <form onSubmit={handleSubmit}>
         <label htmlFor="input">Ask to bot:</label>
         <input
@@ -72,7 +168,7 @@ export default function Home() {
         <div className="party">
           {jojo && jojo.map((j, index) => <p key={index}>Jojo: {j}</p>)}
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }
