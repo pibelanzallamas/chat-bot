@@ -77,7 +77,7 @@ export default function Home() {
           width={{ bs: "90vw", sm: "60vw" }}
           maxWidth={{ sm: "60vw" }}
         >
-          <Heading mb={3}>Future Bot :robot</Heading>
+          <Heading mb={3}>Future Bot 🤖</Heading>
           <Text fontSize="xl" mb="3">
             Welcome to Future Bot, the bot that tells you everything about
             music.
