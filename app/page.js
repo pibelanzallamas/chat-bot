@@ -13,11 +13,7 @@ import {
   AlertDescription,
   Spinner,
   Text,
-  Divider,
   FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Center,
 } from "@chakra-ui/react";
 // import "./page.css";
@@ -78,8 +74,8 @@ export default function Home() {
           background="gray.100"
           p={12}
           rounded={6}
-          width={"60vw"}
-          maxWidth={"60vw"}
+          width={{ bs: "100vw", sm: "60vw" }}
+          maxWidth={{ sm: "60vw" }}
         >
           <Heading mb={3}>Future Bot</Heading>
           <Text fontSize="xl" mb="3">
@@ -148,31 +144,6 @@ export default function Home() {
           )}
         </Flex>
       </Flex>
-      {/* 
-      <p>Welcome to Future Bot, the bot that tells your about the future.</p>
-      <Link href="/about" color="blue.400" _hover={{ color: "blue.500" }}>
-        About
-      </Link>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="input">Ask to bot:</label>
-        <input
-          name="input"
-          id="input"
-          placeholder="Write a question"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-          }}
-        ></input>
-      </form>
-      <div className="container" ref={containerRef}>
-        <div className="party">
-          {user && user.map((u, index) => <p key={index}>User: {u}</p>)}
-        </div>
-        <div className="party">
-          {jojo && jojo.map((j, index) => <p key={index}>Jojo: {j}</p>)}
-        </div>
-      </div> */}
     </main>
   );
 }
