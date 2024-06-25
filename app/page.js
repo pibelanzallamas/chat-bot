@@ -21,16 +21,7 @@ import {
 export default function Home() {
   const containerRef = useRef(null);
   const [query, setQuery] = useState("");
-  const [user, setUser] = useState([
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-  ]);
+  const [user, setUser] = useState([]);
   const [jojo, setJojo] = useState([]);
   const context = "AI expert on music, cool talking. The AI is called Jojo.";
   const [history, setHistory] = useState([]);
@@ -83,10 +74,10 @@ export default function Home() {
           background="gray.100"
           p={12}
           rounded={6}
-          width={{ bs: "100vw", sm: "60vw" }}
+          width={{ bs: "90vw", sm: "60vw" }}
           maxWidth={{ sm: "60vw" }}
         >
-          <Heading mb={3}>Future Bot</Heading>
+          <Heading mb={3}>Future Bot 🤖</Heading>
           <Text fontSize="xl" mb="3">
             Welcome to Future Bot, the bot that tells you everything about
             music.
