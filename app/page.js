@@ -21,7 +21,16 @@ import {
 export default function Home() {
   const containerRef = useRef(null);
   const [query, setQuery] = useState("");
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState([
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+    "AI expert on music, cool talking. The AI is called Jojo.",
+  ]);
   const [jojo, setJojo] = useState([]);
   const context = "AI expert on music, cool talking. The AI is called Jojo.";
   const [history, setHistory] = useState([]);
@@ -84,7 +93,7 @@ export default function Home() {
           </Text>
 
           <Flex
-            maxHeight="34vh"
+            maxHeight={"40vh"}
             direction={"column"}
             overflow={"auto"}
             ref={containerRef}
