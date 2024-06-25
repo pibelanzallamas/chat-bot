@@ -21,16 +21,7 @@ import {
 export default function Home() {
   const containerRef = useRef(null);
   const [query, setQuery] = useState("");
-  const [user, setUser] = useState([
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-    "AI expert on music, cool talking. The AI is called Jojo.",
-  ]);
+  const [user, setUser] = useState([]);
   const [jojo, setJojo] = useState([]);
   const context = "AI expert on music, cool talking. The AI is called Jojo.";
   const [history, setHistory] = useState([]);
