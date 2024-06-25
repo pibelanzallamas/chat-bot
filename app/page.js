@@ -23,7 +23,8 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [user, setUser] = useState([]);
   const [jojo, setJojo] = useState([]);
-  const context = "AI expert on music, cool talking. The AI is called Jojo.";
+  const context =
+    "This is a bot expert on music, charts, release dates, etc. Ai name is Jojo.";
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [low, setLow] = useState(false);
@@ -79,8 +80,7 @@ export default function Home() {
         >
           <Heading mb={3}>Future Bot 🤖</Heading>
           <Text fontSize="xl" mb="3">
-            Welcome to Future Bot, the bot that tells you everything about
-            music.
+            Welcome to Future Bot, the bot that tells you all the music data.
           </Text>
 
           <Flex
