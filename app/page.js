@@ -37,7 +37,7 @@ export default function Home() {
     setUser([...user, query]);
     setLoading(true);
     axios
-      .post("http://localhost:5000/api/nlpcloud", {
+      .post("https://chat-bot-back.onrender.com/api/nlpcloud", {
         context,
         history,
         input: query,
@@ -47,7 +47,10 @@ export default function Home() {
         setHistory(response.history);
         setLow(!response.history);
         setLoading(false);
-        setJojo((elemento) => [...elemento, response.response]);
+        setJojo((elemento) => [
+          ...elemento,
+          response.response || "I'm sorry, I can't answer.",
+        ]);
       })
       .catch((err) => {
         console.log(err);
@@ -80,7 +83,8 @@ export default function Home() {
         >
           <Heading mb={3}>Future Bot</Heading>
           <Text fontSize="xl" mb="3">
-            Welcome to Future Bot, the AI expert on music.
+            Welcome to Future Bot, the bot that tells you everything about
+            music.
           </Text>
 
           <Flex
