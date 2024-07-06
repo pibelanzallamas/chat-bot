@@ -114,34 +114,39 @@ export default function Home() {
             )}
           </Center>
           {low ? (
-            <Alert status="warning" mt={2}>
-              <AlertIcon />
-              <AlertTitle>Take it easy</AlertTitle>
-              <AlertDescription>
-                Looks like you used all your requests. Wait for an hour.
-              </AlertDescription>
-            </Alert>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <FormControl>
-                <Input
-                  placeholder="Write a question"
-                  variant="filled"
-                  mt={3}
-                  mb={3}
-                  type="text"
-                  textAlign={"center"}
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  border="black 1px solid"
-                  required
-                ></Input>
-                <Button width="100%" colorScheme="teal" type="submit">
-                  Ask
-                </Button>
-              </FormControl>
-            </form>
-          )}
+  <Alert status="warning" mt={2}>
+    <AlertIcon />
+    <AlertTitle>Take it easy</AlertTitle>
+    <AlertDescription>
+      Looks like you used all your requests. Wait for an hour.
+    </AlertDescription>
+  </Alert>
+) : (
+  loading ? (
+    <Center mt={2}>Loading ...</Center>
+  ) : (
+    <form onSubmit={handleSubmit}>
+      <FormControl>
+        <Input
+          placeholder="Write a question"
+          variant="filled"
+          mt={3}
+          mb={3}
+          type="text"
+          textAlign="center"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          border="black 1px solid"
+          required
+        />
+        <Button width="100%" colorScheme="teal" type="submit">
+          Ask
+        </Button>
+      </FormControl>
+    </form>
+  )
+)}
+
         </Flex>
       </Flex>
     </main>
